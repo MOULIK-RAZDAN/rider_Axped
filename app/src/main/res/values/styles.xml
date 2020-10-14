@@ -10,6 +10,7 @@
 
     <style name="LoginTheme" parent="FirebaseUI">
 
+
     </style>
 
     <style name="AppTheme.NoActionBar">

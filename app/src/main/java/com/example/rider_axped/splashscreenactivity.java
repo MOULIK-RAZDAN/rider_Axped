@@ -59,10 +59,10 @@ public class splashscreenactivity extends AppCompatActivity {
     @Override
     protected void onStart(){
         super.onStart();
-        delaySpalshScreen();
+       delaySplashScreen();
     }
 
-    private void delaySpalshScreen() {
+    private void delaySplashScreen() {
 
         progressBar.setVisibility(View.VISIBLE);
         Completable.timer(3, TimeUnit.SECONDS,
@@ -208,18 +208,17 @@ public class splashscreenactivity extends AppCompatActivity {
             if(TextUtils.isEmpty((edt_first_name.getText().toString())))
             {
                 Toast.makeText(this,"Please enter first name",Toast.LENGTH_SHORT).show();
-                return;
+
             }
             else if(TextUtils.isEmpty((edt_last_name.getText().toString())))
             {
                 Toast.makeText(this,"Please enter last name",Toast.LENGTH_SHORT).show();
-                return;
+
             }
             else if(TextUtils.isEmpty((edt_phone.getText().toString())))
             {
                 Toast.makeText(this,"Please enter Phone number",Toast.LENGTH_SHORT).show();
-                return;
-            }
+                            }
             else
             {
                 RiderModel model=new RiderModel();
