@@ -50,10 +50,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     private SupportMapFragment mapFragment;
 
 
+
+
     //location
-    private FusedLocationProviderClient fusedLocationProviderClient;
-    private LocationRequest locationRequest;
-    private LocationCallback locationCallback;
+   private FusedLocationProviderClient fusedLocationProviderClient;
+   private LocationRequest locationRequest;
+   private LocationCallback locationCallback;
 
 
     @Override
@@ -77,6 +79,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
         mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.map);
+        assert mapFragment != null;
         mapFragment.getMapAsync(this);
         return root;
     }
@@ -127,24 +130,21 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                         mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
 
-                        mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
-                            @Override
-                            public boolean onMyLocationButtonClick() {
-                                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
-                                        && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                                    return false;
-                                }
-                                fusedLocationProviderClient.getLastLocation()
-                                        .addOnFailureListener(e -> Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT)
-                                                .show())
-                                        .addOnSuccessListener(location -> {
-
-                                            LatLng userLatLng = new LatLng(location.getLatitude(),location.getLongitude());
-                                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng,18));
-
-                                        });
+                        mMap.setOnMyLocationButtonClickListener(() -> {
+                            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                                    && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                                 return false;
                             }
+                            fusedLocationProviderClient.getLastLocation()
+                                    .addOnFailureListener(e -> Snackbar.make(getView(), e.getMessage(), Snackbar.LENGTH_SHORT)
+                                            .show())
+                                    .addOnSuccessListener(location -> {
+
+                                        LatLng userLatLng = new LatLng(location.getLatitude(),location.getLongitude());
+                                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(userLatLng,18f));
+
+                                    });
+                            return true;
                         });
                         //layout button
                         View locationButton = ((View)mapFragment.getView().findViewById(Integer.parseInt("1")).getParent())
