@@ -43,6 +43,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.internal.ICameraUpdateFactoryDelegate;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -384,7 +386,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, IFireb
                         //right bottom
                         params.addRule(RelativeLayout.ALIGN_PARENT_TOP,0);
                         params.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM,RelativeLayout.TRUE);
-                        params.setMargins(0,0,0,50);
+                        params.setMargins(0,0,0,250);
 
 
 
@@ -435,6 +437,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, IFireb
                     .title(Common.buildName(driverGeoModel.getDriverInfoModel().getFirstName(),
                             driverGeoModel.getDriverInfoModel().getLastName()))
                     .snippet(driverGeoModel.getDriverInfoModel().getPhoneNumber())
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.bike_512))
                     ));
 
 
