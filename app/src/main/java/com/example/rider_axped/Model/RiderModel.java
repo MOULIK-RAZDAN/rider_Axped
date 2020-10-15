@@ -1,7 +1,7 @@
 package com.example.rider_axped.Model;
 
 public class RiderModel {
-    private String firstName,lastName,phoneNumber;
+    private String firstName,lastName,phoneNumber,avatar;
 
     public RiderModel() {
     }
@@ -28,6 +28,14 @@ public class RiderModel {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 }
 

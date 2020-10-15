@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 
 import com.example.rider_axped.Common.Common;
 import com.example.rider_axped.Model.RiderModel;
+import com.example.rider_axped.Utils.UserUtils;
 import com.firebase.ui.auth.AuthMethodPickerLayout;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
@@ -29,6 +31,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.Arrays;
 import java.util.List;
@@ -90,7 +93,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         database= FirebaseDatabase.getInstance();
 
-        riderInfoRef = database.getReference(Common.RIDER_INFO_REFENCE);
+        riderInfoRef = database.getReference(Common.RIDER_INFO_REFERENCE);
 
         providers= Arrays.asList(
                 new AuthUI.IdpConfig.PhoneBuilder().build(),
@@ -104,6 +107,14 @@ public class SplashScreenActivity extends AppCompatActivity {
             FirebaseUser user = myFirebaseAuth.getCurrentUser();
             if(user != null)
             {
+                //update token
+                FirebaseInstanceId.getInstance()
+                        .getInstanceId()
+                        .addOnFailureListener(e -> Toast.makeText(SplashScreenActivity.this,e.getMessage(),Toast.LENGTH_SHORT).show())
+                        .addOnSuccessListener(instanceIdResult -> {
+                            Log.d("TOKEN",instanceIdResult.getToken());
+                            UserUtils.updateToken(SplashScreenActivity.this,instanceIdResult.getToken());
+                        });
 
                 checkUserFromFirebase();
             }

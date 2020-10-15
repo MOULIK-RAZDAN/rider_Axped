@@ -1,22 +1,31 @@
 package com.example.rider_axped;
 
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.rider_axped.Common.Common;
+import com.example.rider_axped.Utils.UserUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
@@ -28,13 +37,22 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class HomeActivity extends AppCompatActivity {
 
+    private static final int PICK_IMAGE_REQUEST = 1000;
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private NavController navController;
     private ImageView img_avatar;
+    private Uri imageuri;
+    private AlertDialog waitingDialog;
+    private StorageReference storageReference;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +77,13 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void init() {
+
+        storageReference= FirebaseStorage.getInstance().getReference();
+
+        waitingDialog=new AlertDialog.Builder(this)
+                .setCancelable(false)
+                .setMessage("Waiting...")
+                .create();
         //Copied from driver app
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -115,6 +140,25 @@ public class HomeActivity extends AppCompatActivity {
         txt_name.setText(Common.buildWelcomeMessage());
         txt_phone.setText(Common.currentRider != null ? Common.currentRider.getPhoneNumber() : "");
 
+        img_avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(intent,PICK_IMAGE_REQUEST);
+
+            }
+        });
+
+        if(Common.currentRider !=null && Common.currentRider.getAvatar() !=null &&
+                !TextUtils.isEmpty(Common.currentRider.getAvatar()))
+        {
+            Glide.with(this)
+                    .load(Common.currentRider.getAvatar())
+                    .into(img_avatar);
+        }
+
 
     }
 
@@ -130,5 +174,73 @@ public class HomeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK)
+        {
+            if(data!=null && data.getData()!=null)
+            {
+                imageuri=data.getData();
+                img_avatar.setImageURI(imageuri);
+
+                showDialogUpload();
+            }
+        }
+    }
+
+    @SuppressLint("NewApi")
+    private void showDialogUpload() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(HomeActivity.this);
+        builder.setTitle("Change Avatar")
+                .setMessage("Do you really want to Avatar?")
+                .setNegativeButton("CANCEL", (dialogInterface, i) -> dialogInterface.dismiss())
+                .setPositiveButton("UPLOAD", (dialogInterface, i) -> {
+                    if(imageuri!=null)
+                    {
+                        waitingDialog.setMessage("Uploading...");
+                        waitingDialog.show();
+
+                        String unique_name= FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        StorageReference avatarFolder = storageReference.child("avatars/"+unique_name);
+
+                        avatarFolder.putFile(imageuri)
+                                .addOnFailureListener(e -> {
+                                    waitingDialog.dismiss();
+                                    Snackbar.make(drawer,e.getMessage(),Snackbar.LENGTH_SHORT).show();
+
+                                }).addOnCompleteListener(task -> {
+                            if(task.isSuccessful())
+                            {
+                                avatarFolder.getDownloadUrl().addOnSuccessListener(uri -> {
+                                    Map<String,Object> updateData=new HashMap<>();
+                                    updateData.put("avatar",uri.toString());
+
+                                    UserUtils.updateUser(drawer,updateData);
+                                });
+                            }
+                        }).addOnProgressListener(taskSnapshot -> {
+                            double progress =(100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                            waitingDialog.setMessage(new StringBuilder("Uploading: ").append(progress).append("%"));
+                            waitingDialog.dismiss();// may be wrong , if not working delete it plz
+
+                        });
+                    }
+                })
+                .setCancelable(false);
+
+        AlertDialog dialog = builder.create();
+        dialog.setOnShowListener(dialog1 -> {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                    .setTextColor(getResources().getColor(android.R.color.holo_red_dark, null ));
+            dialog.getButton(AlertDialog.BUTTON_NEGATIVE)
+                    .setTextColor(getResources().getColor(R.color.colorAccent, null));
+
+        });
+
+        dialog.show();
+
     }
 }
