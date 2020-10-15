@@ -14,14 +14,24 @@ import androidx.core.app.NotificationCompat;
 
 import com.example.rider_axped.Model.RiderModel;
 import com.example.rider_axped.R;
+import com.google.android.gms.maps.model.Marker;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Common {
     public static final String RIDER_INFO_REFERENCE = "Riders";
     public static final String TOKEN_REFERENCE ="Token" ;
     public static final String NOTI_TITLE = "title";
     public static final String NOTI_CONTENT ="body" ;
+    public static final String DRIVERS_LOCATION_REFERENCES = " DriversLocation";
+    public static final String DRIVERS_INFO_REFERENCE = "DriverInfo";
 
     public static RiderModel currentRider;
+    public static Set<DriverGeoModel> driversFound= new HashSet<DriverGeoModel>();
+    public static HashMap<String, Marker> markerList= new HashMap<>();
 
     public static CharSequence buildWelcomeMessage() {   // string not working so CharSequence
         if(Common.currentRider != null)    // user == rider
@@ -69,5 +79,9 @@ public class Common {
         notificationManager.notify(id,notification);
 
 
+    }
+
+    public static String buildName(String firstName, String lastName) {
+        return  new StringBuilder(firstName).append(" ").append(lastName).toString();
     }
 }

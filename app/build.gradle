@@ -74,5 +74,8 @@ dependencies {
     //firebase messaging
     implementation 'com.google.firebase:firebase-messaging:20.3.0'
 
+    //Geofire
+    implementation 'com.firebase:geofire-android:3.0.0'
+
 
 }
