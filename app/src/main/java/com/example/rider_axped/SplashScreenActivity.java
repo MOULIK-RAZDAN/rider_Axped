@@ -14,18 +14,15 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.rider_axped.Common.Common;
 import com.example.rider_axped.Model.RiderModel;
-import com.example.rider_axped.common.common;
 import com.firebase.ui.auth.AuthMethodPickerLayout;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.common.internal.service.Common;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,11 +36,10 @@ import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnEditorAction;
 import io.reactivex.Completable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
-public class splashscreenactivity extends AppCompatActivity {
+public class SplashScreenActivity extends AppCompatActivity {
 
 
     private final static int LOGIN_REQUEST_CODE = 7171;
@@ -94,7 +90,7 @@ public class splashscreenactivity extends AppCompatActivity {
 
         database= FirebaseDatabase.getInstance();
 
-        riderInfoRef = database.getReference(common.RIDER_INFO_REFENCE);
+        riderInfoRef = database.getReference(Common.RIDER_INFO_REFENCE);
 
         providers= Arrays.asList(
                 new AuthUI.IdpConfig.PhoneBuilder().build(),
@@ -176,7 +172,7 @@ public class splashscreenactivity extends AppCompatActivity {
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
-                        Toast.makeText(splashscreenactivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SplashScreenActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 });
@@ -233,14 +229,14 @@ public class splashscreenactivity extends AppCompatActivity {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 dialog.dismiss();
-                                Toast.makeText(splashscreenactivity.this, e.getMessage(),Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SplashScreenActivity.this, e.getMessage(),Toast.LENGTH_SHORT).show();
 
                             }
                         })
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(splashscreenactivity.this,"Register Successfully!",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SplashScreenActivity.this,"Register Successfully!",Toast.LENGTH_SHORT).show();
                                 dialog.dismiss();
                                 goToHomeActivity(model);
 
@@ -258,7 +254,7 @@ public class splashscreenactivity extends AppCompatActivity {
 
 
     private void goToHomeActivity(RiderModel riderModel) {
-        common.currentRider = riderModel;
+        Common.currentRider = riderModel;
         startActivity(new Intent(this,HomeActivity.class));
         finish();
     }
