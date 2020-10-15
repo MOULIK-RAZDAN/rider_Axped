@@ -61,5 +61,8 @@ dependencies {
     //location
     implementation 'com.google.android.gms:play-services-location:17.0.0'
 
+    //Circle image
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
 
 }
