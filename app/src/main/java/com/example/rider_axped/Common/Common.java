@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
+import android.widget.TextView;
 
 import androidx.core.app.NotificationCompat;
 
@@ -17,6 +18,7 @@ import com.example.rider_axped.R;
 import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
@@ -83,5 +85,14 @@ public class Common {
 
     public static String buildName(String firstName, String lastName) {
         return  new StringBuilder(firstName).append(" ").append(lastName).toString();
+    }
+
+    public static void setWelcomeMessage(TextView txt_welcome) {
+        int hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        if(hour >= 1 && hour <= 12)
+            txt_welcome.setText(new StringBuilder("Good Morning."));
+        else if(hour >= 13 && hour <= 17)
+            txt_welcome.setText(new StringBuilder("Good Afternoon."));
+        else txt_welcome.setText(new StringBuilder("Good Evening."));
     }
 }

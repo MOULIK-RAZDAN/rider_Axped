@@ -18,5 +18,9 @@
     <string name="permission_require">Location permission required</string>
     <string name="drivers_not_found">Drivers Not Found !</string>
     <string name="not_found_key">Not Found Driver With key</string>
+    <string name="welcome">Hello, Welcome to CyRent</string>
+    <string name="choose_saved_place">Choose a saved place</string>
+    <string name="where_to">Where to?</string>
+    <string name="city_name_empty">City name is empty</string>
 
 </resources>
