@@ -88,6 +88,14 @@ dependencies {
     //Google Places
     implementation 'com.google.android.libraries.places:places:2.3.0'
 
+    //event bus
+    implementation 'org.greenrobot:eventbus:3.2.0'
+
+    //maps utils
+    implementation 'com.google.maps.android:android-maps-utils-v3:2.0.3'
+
+
+
 
 
 
