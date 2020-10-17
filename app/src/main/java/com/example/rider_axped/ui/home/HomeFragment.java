@@ -1,36 +1,28 @@
 package com.example.rider_axped.ui.home;
 
 import android.Manifest;
-import android.animation.ValueAnimator;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Looper;
-import android.renderscript.Sampler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import com.example.rider_axped.Callback.IFirebaseDriverInfoListener;
 import com.example.rider_axped.Callback.IFirebaseFailedListner;
 import com.example.rider_axped.Common.Common;
-import com.example.rider_axped.Common.DriverGeoModel;
+import com.example.rider_axped.Model.DriverGeoModel;
 //import com.example.rider_axped.Model.AnimationModel;
 import com.example.rider_axped.Model.DriverInfoModel;
 import com.example.rider_axped.Model.GeoQueryModel;
@@ -50,15 +42,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.internal.ICameraUpdateFactoryDelegate;
-import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -73,17 +60,12 @@ import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
 import io.reactivex.Observable;
-import io.reactivex.Scheduler;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback, IFirebaseFailedListner, IFirebaseDriverInfoListener {
@@ -230,7 +212,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, IFireb
 
                 //Query
                 DatabaseReference driver_location_ref = FirebaseDatabase.getInstance()
-                        .getReference(Common.DRIVERS_LOCATION_REFERENCES)
+                        .getReference(Common.DRIVER_LOCATION_REFERENCES)
                         .child(cityName);
                 GeoFire gf = new GeoFire(driver_location_ref);
                 GeoQuery geoQuery= gf.queryAtLocation(new GeoLocation(location.getLatitude(),
@@ -359,7 +341,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, IFireb
     private void findDriverByKey(DriverGeoModel driverGeoModel) {
 
         FirebaseDatabase.getInstance()
-                .getReference(Common.DRIVERS_INFO_REFERENCE)
+                .getReference(Common.DRIVER_INFO_REFERENCE)
                 .child(driverGeoModel.getKey())
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -472,8 +454,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, IFireb
                     .position(new LatLng(driverGeoModel.getGeoLocation().latitude,
                             driverGeoModel.getGeoLocation().longitude))
                     .flat(true)
-                    .title(Common.buildName(driverGeoModel.getDriverInfoModel().getFirstName(),
-                            driverGeoModel.getDriverInfoModel().getLastName()))
+                  //  .title(Common.buildName(driverGeoModel.getDriverInfoModel().getFirstName(),
+                          //  driverGeoModel.getDriverInfoModel().getLastName()))
                     .snippet(driverGeoModel.getDriverInfoModel().getPhoneNumber())
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.bike_512))
                     ));
@@ -482,7 +464,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, IFireb
         if(!TextUtils.isEmpty(cityName)){
 
             DatabaseReference driverLocation = FirebaseDatabase.getInstance()
-                    .getReference(Common.DRIVERS_LOCATION_REFERENCES)
+                    .getReference(Common.DRIVER_LOCATION_REFERENCES)
                     .child(cityName)
                     .child(driverGeoModel.getKey());
             driverLocation.addValueEventListener(new ValueEventListener() {

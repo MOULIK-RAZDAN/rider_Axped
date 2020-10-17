@@ -1,4 +1,4 @@
-package com.example.rider_axped.Common;
+package com.example.rider_axped.Model;
 
 import com.example.rider_axped.Model.DriverInfoModel;
 import com.firebase.geofire.GeoLocation;

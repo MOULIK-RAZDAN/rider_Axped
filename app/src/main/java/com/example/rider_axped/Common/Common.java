@@ -13,16 +13,13 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 
 //import com.example.rider_axped.Model.AnimationModel;
+import com.example.rider_axped.Model.DriverGeoModel;
 import com.example.rider_axped.Model.RiderModel;
 import com.example.rider_axped.R;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Common {
@@ -30,8 +27,8 @@ public class Common {
     public static final String TOKEN_REFERENCE ="Token" ;
     public static final String NOTI_TITLE = "title";
     public static final String NOTI_CONTENT ="body" ;
-    public static final String DRIVERS_LOCATION_REFERENCES = " DriversLocation";
-    public static final String DRIVERS_INFO_REFERENCE = "DriverInfo";
+    public static final String DRIVER_LOCATION_REFERENCES = "LenderLocation";
+    public static final String DRIVER_INFO_REFERENCE = "DriverInfo";
 
     public static RiderModel currentRider;
     public static Set<DriverGeoModel> driversFound= new HashSet<DriverGeoModel>();
@@ -86,10 +83,10 @@ public class Common {
 
     }
 
-    public static String buildName(String firstName, String lastName) {
+   /* public static String buildName(String firstName, String lastName) {
         return  new StringBuilder(firstName).append(" ").append(lastName).toString();
     }
-
+*/
   /*  //DECODE POLY
     public static List<LatLng> decodePoly(String encoded) {
         List poly = new ArrayList();
