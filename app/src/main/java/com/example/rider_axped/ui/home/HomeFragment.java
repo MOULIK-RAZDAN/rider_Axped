@@ -31,12 +31,12 @@ import com.example.rider_axped.Callback.IFirebaseDriverInfoListener;
 import com.example.rider_axped.Callback.IFirebaseFailedListner;
 import com.example.rider_axped.Common.Common;
 import com.example.rider_axped.Common.DriverGeoModel;
-import com.example.rider_axped.Model.AnimationModel;
+//import com.example.rider_axped.Model.AnimationModel;
 import com.example.rider_axped.Model.DriverInfoModel;
 import com.example.rider_axped.Model.GeoQueryModel;
 import com.example.rider_axped.R;
-import com.example.rider_axped.Remote.IGoogleAPI;
-import com.example.rider_axped.Remote.RetrofitClient;
+//import com.example.rider_axped.Remote.IGoogleAPI;
+//import com.example.rider_axped.Remote.RetrofitClient;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQuery;
@@ -111,23 +111,23 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, IFireb
     private String cityName;
 
     //
-    private CompositeDisposable compositeDisposable = new CompositeDisposable();
-    private IGoogleAPI iGoogleAPI;
+   // private CompositeDisposable compositeDisposable = new CompositeDisposable();
+    //private IGoogleAPI iGoogleAPI;
 
-    //Moving Marker
+ /*   //Moving Marker
     private List<LatLng> ploylineList;
     private Handler handler;
     private int index,next;
     private LatLng start,end;
     private float v;
     private double lat,lng;
-
-
+*/
+/*
     @Override
     public void onStop() {
         compositeDisposable.clear();
         super.onStop();
-    }
+    }*/
 
     @Override
     public void onDestroy() {
@@ -156,7 +156,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, IFireb
     }
 
     private void init() {
-        iGoogleAPI = RetrofitClient.getInstance().create(IGoogleAPI.class);
+      //  iGoogleAPI = RetrofitClient.getInstance().create(IGoogleAPI.class);
 
 
 
@@ -492,11 +492,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, IFireb
                         if(Common.markerList.get(driverGeoModel.getKey()) != null)
                             Common.markerList.get(driverGeoModel.getKey()).remove();//Remove maker
                         Common.markerList.remove(driverGeoModel.getKey());// Remove marker info from hash map
-                        Common.driverLocationSubscribe.remove(driverGeoModel.getKey());// remove drive info
+                       // Common.driverLocationSubscribe.remove(driverGeoModel.getKey());// remove drive info
                         driverLocation.removeEventListener(this);//remove event listner
 
                     }
-                    else
+                   /* else
                     {
                         if(Common.markerList.get(driverGeoModel.getKey()) != null){
 
@@ -522,13 +522,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, IFireb
                                 moveMarkerAnimation(driverGeoModel.getKey(),animationModel,currentMarker,from,to);
 
                             }
-                            else
+                            /*else
                             {
                                 //First location init
                                 Common.driverLocationSubscribe.put(driverGeoModel.getKey(),animationModel);
                             }
                         }
-                    }
+                    }*/
 
                 }
 
@@ -542,7 +542,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, IFireb
         }
     }
 
-    private void moveMarkerAnimation(String key, AnimationModel animationModel, Marker currentMarker, String from, String to) {
+ /*   private void moveMarkerAnimation(String key, AnimationModel animationModel, Marker currentMarker, String from, String to) {
         if(!animationModel.isRun())
         {
             //request API
@@ -629,4 +629,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback, IFireb
 
         }
     }
+
+  */
 }

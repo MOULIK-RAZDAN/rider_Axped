@@ -11,7 +11,7 @@
     android:layout_height="match_parent"
     android:gravity="bottom"
     tools:context=".HomeActivity"
-    app:umanoPanelHeight="220dp"
+    app:umanoPanelHeight="200dp"
     app:umanoShadowHeight="20dp">
 
 
@@ -74,7 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/layout_choose_saved_places"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="-550dp"
         >
 
         <ImageView

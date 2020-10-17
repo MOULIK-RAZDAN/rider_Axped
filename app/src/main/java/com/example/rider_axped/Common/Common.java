@@ -12,7 +12,7 @@ import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
-import com.example.rider_axped.Model.AnimationModel;
+//import com.example.rider_axped.Model.AnimationModel;
 import com.example.rider_axped.Model.RiderModel;
 import com.example.rider_axped.R;
 import com.google.android.gms.maps.model.LatLng;
@@ -36,7 +36,7 @@ public class Common {
     public static RiderModel currentRider;
     public static Set<DriverGeoModel> driversFound= new HashSet<DriverGeoModel>();
     public static HashMap<String, Marker> markerList= new HashMap<>();
-    public static HashMap<String, AnimationModel> driverLocationSubscribe = new HashMap<String, AnimationModel>();
+  //  public static HashMap<String, AnimationModel> driverLocationSubscribe = new HashMap<String, AnimationModel>();
 
     public static CharSequence buildWelcomeMessage() {   // string not working so CharSequence
         if(Common.currentRider != null)    // user == rider
@@ -90,7 +90,7 @@ public class Common {
         return  new StringBuilder(firstName).append(" ").append(lastName).toString();
     }
 
-    //DECODE POLY
+  /*  //DECODE POLY
     public static List<LatLng> decodePoly(String encoded) {
         List poly = new ArrayList();
         int index=0,len=encoded.length();
@@ -126,7 +126,7 @@ public class Common {
 
 
     public static float getBearing(LatLng begin, LatLng end) {
-        //You can copy this function by link at description
+
         double lat = Math.abs(begin.latitude - end.latitude);
         double lng = Math.abs(begin.longitude - end.longitude);
 
@@ -139,5 +139,5 @@ public class Common {
         else if (begin.latitude < end.latitude && begin.longitude >= end.longitude)
             return (float) ((90 - Math.toDegrees(Math.atan(lng / lat))) + 270);
         return -1;
-    }
+    }*/
 }

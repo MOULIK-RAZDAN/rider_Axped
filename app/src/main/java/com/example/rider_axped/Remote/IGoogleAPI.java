@@ -1,4 +1,4 @@
-package com.example.rider_axped.Remote;
+/*package com.example.rider_axped.Remote;
 
 import com.google.firebase.database.snapshot.StringNode;
 
@@ -19,3 +19,4 @@ public interface IGoogleAPI {
 
 
 }
+*/

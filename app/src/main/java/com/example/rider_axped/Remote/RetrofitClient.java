@@ -1,4 +1,4 @@
-package com.example.rider_axped.Remote;
+/*package com.example.rider_axped.Remote;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -20,3 +20,4 @@ public class RetrofitClient {
     }
 
 }
+*/

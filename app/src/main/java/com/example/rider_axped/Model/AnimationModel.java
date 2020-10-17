@@ -1,4 +1,4 @@
-package com.example.rider_axped.Model;
+/*package com.example.rider_axped.Model;
 
 public class AnimationModel {
     private boolean isRun;
@@ -25,5 +25,5 @@ public class AnimationModel {
     public void setGeoQueryModel(GeoQueryModel geoQueryModel) {
         this.geoQueryModel = geoQueryModel;
     }
-}
+}*/
 
